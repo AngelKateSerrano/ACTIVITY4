@@ -138,6 +138,18 @@ document.addEventListener("keydown", function(event) {
     } 
 });
 
+const inputname = document.getElementById("fname");
+const inputage = document.getElementById("fage");
+const selectgender = document.getElementById("choosegender");
+
+const formData = {
+    name: inputname.value,
+    age: inputage.value,
+    gender: selectgender.value
+};
+
+localStorage.setItem('formData', JSON.stringify(formData));
+
 
 </script>
 
