@@ -102,6 +102,19 @@
 
     // close modal after successful submit
     modal.style.display = "none";
+
+
+    const inputname = document.getElementById("fname");
+const inputage = document.getElementById("fage");
+const selectgender = document.getElementById("choosegender");
+
+const formData = {
+    name: inputname.value,
+    age: inputage.value,
+    gender: selectgender.value
+};
+
+localStorage.setItem('formData', JSON.stringify(formData));
   });
 
   // escape key to clear current input field
@@ -128,7 +141,7 @@
 });
 
     //enter is click, it will go to the next input field
-document.addEventListener("keydown", function(event) { 
+    document.addEventListener("keydown", function(event) { 
     if (event.key === "Enter") { 
         event.preventDefault(); 
         var active = document.activeElement;
@@ -138,17 +151,7 @@ document.addEventListener("keydown", function(event) {
     } 
 });
 
-const inputname = document.getElementById("fname");
-const inputage = document.getElementById("fage");
-const selectgender = document.getElementById("choosegender");
 
-const formData = {
-    name: inputname.value,
-    age: inputage.value,
-    gender: selectgender.value
-};
-
-localStorage.setItem('formData', JSON.stringify(formData));
 
 
 </script>
