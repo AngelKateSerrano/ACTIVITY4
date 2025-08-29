@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <div id="mainddiv" style="font-size: 40px; font-weight: bold; font-family: Arial, Helvetica, sans-serif; margin-top: 20px; margin-left: 10px;">
+    Press Ctrl + Alt + N to Open the form
+
+    <div id="finnerdiv" style="width: 550px; min-height: 200px; border:2px solid grey; border-radius: 8px; margin-top: 20px; padding: 20px;">
+        <h2 id="sdata" style="font-size: 30px; margin-bottom: 10px;">Submitted Data:</h2>
+        <h2 id="name" style="font-size: 30px; margin-bottom: 10px;">Name:</h2>
+        <h2 id="age" style="font-size: 30px; margin-bottom: 10px;">Age:</h2>
+        <h2 id="gender" style="font-size: 30px; margin-bottom: 10px;">Gender:</h2>
+    </div>
+
+    <div id="modal" 
+         style="width: 500px; border:2px solid grey; border-radius: 8px; padding: 20px; font-weight: bold; text-indent: 20px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; display: none; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+        Fill Form
+
+        <form id="myform" action="" method="post" style="font-weight: normal; margin-top: 20px;">
+
+            <label for="fname" style="font-size: 30px;">Name:</label><br>
+            <input type="text" id="fname" name="name" 
+                   style="width: 100%; height: 35px; border-radius: 5px; border:2px solid grey; font-size: 20px;"><br><br>
+
+            <label for="fage" style="font-size: 30px;">Age:</label><br>
+            <input type="text" id="fage" name="age" 
+                   style="width: 100%; height: 35px; border-radius: 5px; border:2px solid grey; font-size: 20px; padding-left: 10px;"><br><br>
+
+            <label for="fgender" style="font-size:30px;">Gender:</label><br>
+            <select id="choosegender" name="gender" 
+                    style="width: 100%; height: 35px; border-radius: 5px; border:2px solid grey; font-size: 20px; padding-left: 10px;">
+                <option value=""></option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="others">Others</option>
+            </select><br><br>
+
+            <button type="submit" id="submit" 
+                    style="width: 100%; height: 45px; border-radius: 5px; border:none; font-size: 18px; font-weight: bold; cursor: pointer; background-color:grey; color: white;">
+                Submit
+            </button>
+
+        </form>
+    </div>
+</div>
+
+
+    <script>
+  var modal = document.getElementById("modal");
+  let submitBtn = document.getElementById("submit");
+
+  // Ctrl + Alt + N to open
+  document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.altKey && event.key === 'n') {
+      event.preventDefault();
+      modal.style.display = "block";
+      console.log('Ctrl + Alt + N pressed!');
+      document.getElementById("fname").focus();
+    } 
+  });
+
+  // shake code animation
+  (function(){
+    var style = document.createElement("style");
+    style.innerHTML = `
+      @keyframes shake {
+        0%   { transform: translate(-50%, -50%) translateX(0); }
+        25%  { transform: translate(-50%, -50%) translateX(-10px); }
+        50%  { transform: translate(-50%, -50%) translateX(10px); }
+        75%  { transform: translate(-50%, -50%) translateX(-10px); }
+        100% { transform: translate(-50%, -50%) translateX(0); }
+      }
+    `;
+    document.head.appendChild(style);
+  })();
+
+  submitBtn.addEventListener("click", function(event) {
+    event.preventDefault(); 
+
+    // get values from input fields
+    var newnamevalue = document.getElementById("fname").value;
+    var newagevalue = document.getElementById("fage").value;
+    var newgendervalue = document.getElementById("choosegender").value;
+
+    // shake modal if there is a empty field
+    if (newnamevalue === "" || newagevalue === "" || newgendervalue === "") {
+      modal.style.animation = "shake 0.5s";
+      modal.addEventListener("animationend", function() {
+      modal.style.animation = "";
+      }, { once: true });
+      return;
+    }
+    //display value once is data is sumit
+    document.getElementById("sdata").textContent = "Submitted Data:";
+    document.getElementById("name").textContent = "Name: " + newnamevalue;
+    document.getElementById("age").textContent  = "Age: " + newagevalue;
+    document.getElementById("gender").textContent = "Gender: " + newgendervalue;
+
+    // close modal after successful submit
+    modal.style.display = "none";
+  });
+
+  // escape key to clear current input field
+  document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      let active = document.activeElement;
+      if (active && (active.tagName === "INPUT" || active.tagName === "SELECT")) {
+        active.value = "";
+      }
+    }
+  });
+
+    //if alt1 is click all input will be clear
+  document.addEventListener("keydown", function(event) {
+   
+    if (event.altKey && event.key === "1") {
+        event.preventDefault(); 
+    
+        document.getElementById("fname").value = "";
+        document.getElementById("fage").value = "";
+        document.getElementById("choosegender").value = "";
+    }
+});
+
+    //enter is click, it will go to the next input field
+document.addEventListener("keydown", function(event) { 
+    if (event.key === "Enter") { 
+        event.preventDefault(); 
+        var active = document.activeElement;
+        if (active.id === "fname") document.getElementById("fage").focus();
+        else if (active.id === "fage") document.getElementById("choosegender").focus();
+        else if (active.id === "choosegender") document.getElementById("submit").focus();
+    } 
+});
+
+
+</script>
+
+</body>
+</html>
